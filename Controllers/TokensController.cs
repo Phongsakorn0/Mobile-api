@@ -26,7 +26,7 @@ public class TokensController : ControllerBase
     {
         var db = new ToDoDbContext();
 
-        var user = db.User.Find(data.Id);
+        var user = db.User.Find(Convert.ToInt32(data.Id));
         if (user == null)
         {
          return Unauthorized();
@@ -40,7 +40,7 @@ public class TokensController : ControllerBase
             numBytesRequested: 32
         ));
 
-        if (user.Password != hashed)
+        if (user.HashedPassword != hashed)
         {
             return Unauthorized();
         }
@@ -48,7 +48,7 @@ public class TokensController : ControllerBase
         var desc = new SecurityTokenDescriptor();
         desc.Subject = new ClaimsIdentity(new Claim[]
         {
-            new Claim(ClaimTypes.Name, user.Id),
+            new Claim(ClaimTypes.Name, user.Id.ToString()),
             new Claim(ClaimTypes.Role, "user")
         });
         desc.NotBefore = DateTime.UtcNow;

@@ -17,11 +17,11 @@ public class UsersController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public IActionResult Post([FromBody] ToDo.DTOs.Login data)
+    public IActionResult Post([FromBody] ToDo.DTOs.Register data)
     {
         var db = new ToDoDbContext();
 
-        var user = db.User.Find(data.Id);
+        var user = db.User.Find(Convert.ToInt32(data.Id));
         if (user != null)
         {
             return BadRequest();
@@ -39,9 +39,13 @@ public class UsersController : ControllerBase
 
         var newUser = new User
         {
-            Id = data.Id,
-            Password = hashed,
-            Salt = Convert.ToBase64String(s)
+            Id = Convert.ToInt32(data.Id),
+            HashedPassword = hashed,
+            Salt = Convert.ToBase64String(s),
+            Firstname = data.Firstname,
+            Lastname = data.Lastname,
+            NationalId = data.NationalId,
+            Tittle = data.Tittle
         };
 
         db.User.Add(newUser);
@@ -59,9 +63,13 @@ public class UsersController : ControllerBase
                     select new
                     {
                         id = User.Identity.Name,
+                        firstname = u.Firstname,
+                        lastname = u.Lastname,
+                        nationalId = u.NationalId,
+                        tittle = u.Tittle
                     }).FirstOrDefault();
         var activities = from a in db.Activity
-                         where a.Userid == User.Identity.Name
+                         where a.Userid == Convert.ToUInt32(User.Identity.Name)
                          orderby a.When
                          select new
                          {

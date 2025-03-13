@@ -10,9 +10,13 @@ namespace ToDo.Models
             Activity = new HashSet<Activity>();
         }
 
-        public string Id { get; set; } = null!;
-        public string Password { get; set; } = null!;
+        public int Id { get; set; }
+        public string HashedPassword { get; set; } = null!;
         public string Salt { get; set; } = null!;
+        public string NationalId { get; set; } = null!;
+        public string Tittle { get; set; } = null!;
+        public string Firstname { get; set; } = null!;
+        public string Lastname { get; set; } = null!;
 
         public virtual ICollection<Activity> Activity { get; set; }
     }

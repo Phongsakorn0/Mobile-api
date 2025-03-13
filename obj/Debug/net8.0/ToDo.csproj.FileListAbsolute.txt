@@ -46,3 +46,4 @@
 /Users/user/Desktop/work/ToDo/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/user/Desktop/work/ToDo/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/user/Desktop/work/ToDo/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/user/Desktop/work/ToDo/obj/Debug/net8.0/ToDo.sourcelink.json

@@ -22,7 +22,7 @@ public class ActivitiesController : ControllerBase
         var db = new ToDoDbContext();
 
         var activities = from a in db.Activity 
-                            where a.Userid == User.Identity.Name
+                            where a.Userid == Convert.ToUInt32(User.Identity.Name)
                             orderby a.When
                             select new{
                                 name = a.Name,
@@ -43,7 +43,7 @@ public class ActivitiesController : ControllerBase
         var db = new ToDoDbContext();
 
         var activity = from a in db.Activity
-                                    where a.Id == id && a.Userid == User.Identity.Name
+                                    where a.Id == id && a.Userid == Convert.ToUInt32(User.Identity.Name)
                                     select new{
                                         name = a.Name,
                                         when = a.When
@@ -66,7 +66,7 @@ public class ActivitiesController : ControllerBase
         {
             Name = data.Name,
             When = data.When,
-            Userid = User.Identity.Name
+            Userid = Convert.ToInt32(User.Identity.Name)
         };
         db.Activity.Add(a);
         db.SaveChanges();
@@ -80,7 +80,7 @@ public class ActivitiesController : ControllerBase
         var db = new ToDoDbContext();
 
         var activitiy = (from a in db.Activity
-                                    where a.Id == id && a.Userid == User.Identity.Name
+                                    where a.Id == id && a.Userid == Convert.ToUInt32(User.Identity.Name)
                                     select a).FirstOrDefault();
         if (activitiy == null)
         {
@@ -95,7 +95,7 @@ public class ActivitiesController : ControllerBase
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "user")]
-    public IActionResult Delete(uint id)
+    public IActionResult Delete(int id)
     {
         var db = new ToDoDbContext();
 

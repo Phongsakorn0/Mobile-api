@@ -37,13 +37,11 @@ namespace ToDo.Models
             {
                 entity.HasIndex(e => e.Userid, "FK_Activity_Userid");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnType("int(11)");
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Name).HasMaxLength(100);
 
-                entity.Property(e => e.Userid).HasMaxLength(13);
+                entity.Property(e => e.Userid).HasColumnType("int(10)");
 
                 entity.Property(e => e.When).HasColumnType("datetime");
 
@@ -56,13 +54,25 @@ namespace ToDo.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.Id)
+                entity.Property(e => e.Id).HasColumnType("int(10)");
+
+                entity.Property(e => e.Firstname).HasMaxLength(100);
+
+                entity.Property(e => e.HashedPassword)
+                    .HasMaxLength(44)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Lastname).HasMaxLength(100);
+
+                entity.Property(e => e.NationalId)
                     .HasMaxLength(13)
-                    .HasColumnName("id");
+                    .IsFixedLength();
 
-                entity.Property(e => e.Password).HasMaxLength(44);
+                entity.Property(e => e.Salt)
+                    .HasMaxLength(24)
+                    .IsFixedLength();
 
-                entity.Property(e => e.Salt).HasMaxLength(24);
+                entity.Property(e => e.Tittle).HasMaxLength(100);
             });
 
             OnModelCreatingPartial(modelBuilder);
