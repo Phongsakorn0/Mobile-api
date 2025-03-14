@@ -7,6 +7,5 @@ namespace ToDo.DTOs
     {
         public required string Name { get; set; }
         public DateTime When { get; set; }
-        public required int Userid { get; set; }
     }
 }

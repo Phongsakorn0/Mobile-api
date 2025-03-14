@@ -37,7 +37,7 @@ namespace ToDo.Models
             {
                 entity.HasIndex(e => e.Userid, "FK_Activity_Userid");
 
-                entity.Property(e => e.Id).HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnType("int(10)");
 
                 entity.Property(e => e.Name).HasMaxLength(100);
 

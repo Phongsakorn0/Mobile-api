@@ -26,8 +26,10 @@ public class TokensController : ControllerBase
     {
         var db = new ToDoDbContext();
 
-        var user = db.User.Find(Convert.ToInt32(data.Id));
-        if (user == null)
+        var user = (from u in db.User
+                   where u.NationalId == data.NationalId
+                   select u).FirstOrDefault();
+        if (user == null )
         {
          return Unauthorized();
         }
@@ -48,7 +50,7 @@ public class TokensController : ControllerBase
         var desc = new SecurityTokenDescriptor();
         desc.Subject = new ClaimsIdentity(new Claim[]
         {
-            new Claim(ClaimTypes.Name, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.NationalId),
             new Claim(ClaimTypes.Role, "user")
         });
         desc.NotBefore = DateTime.UtcNow;
