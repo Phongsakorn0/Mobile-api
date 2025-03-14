@@ -20,9 +20,12 @@ public class ActivitiesController : ControllerBase
     public IActionResult Get()
     {
         var db = new ToDoDbContext();
+        var user = (from u in db.User
+                    where u.NationalId == User.Identity.Name
+                    select u).FirstOrDefault();
 
         var activities = from a in db.Activity 
-                            where a.Userid == Convert.ToUInt32(User.Identity.Name)
+                            where a.Userid == Convert.ToUInt32(user.Id)
                             orderby a.When
                             select new{
                                 name = a.Name,
@@ -42,8 +45,12 @@ public class ActivitiesController : ControllerBase
     {
         var db = new ToDoDbContext();
 
+        var user = (from u in db.User
+                    where u.NationalId == User.Identity.Name
+                    select u).FirstOrDefault();
+
         var activity = from a in db.Activity
-                                    where a.Id == id && a.Userid == Convert.ToUInt32(User.Identity.Name)
+                                    where a.Id == id && a.Userid == Convert.ToUInt32(user.Id)
                                     select new{
                                         name = a.Name,
                                         when = a.When
@@ -62,11 +69,19 @@ public class ActivitiesController : ControllerBase
     {
         var db = new ToDoDbContext();
 
+        var user = (from u in db.User
+                    where u.NationalId == User.Identity.Name
+                    select u).FirstOrDefault();
+        if (User == null)
+        {
+            return Unauthorized();
+        }
+
         var a = new Activity
         {
             Name = data.Name,
             When = data.When,
-            Userid = Convert.ToInt32(User.Identity.Name)
+            Userid = Convert.ToInt32(user.Id)
         };
         db.Activity.Add(a);
         db.SaveChanges();
